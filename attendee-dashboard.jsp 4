@@ -1,0 +1,56 @@
+ <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.eventmanagement.model.User, com.eventmanagement.model.Event, java.util.List"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Attendee Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Event Management</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="events">Dashboard</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h2>Available Events</h2>
+        
+        <% List<Event> events = (List<Event>) request.getAttribute("events"); %>
+        <% if (events != null && !events.isEmpty()) { %>
+            <div class="row">
+                <% for (Event event : events) { %>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= event.getTitle() %></h5>
+                                <p class="card-text"><%= event.getDescription() %></p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <%= event.getDate() %> at <%= event.getTime() %><br>
+                                        <%= event.getLocation() %>
+                                    </small>
+                                </p>
+                                <a href="view-event?id=<%= event.getEventId() %>" class="btn btn-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="alert alert-info">No events available at the moment.</div>
+        <% } %>
+    </div>
+</body>
+</html>
